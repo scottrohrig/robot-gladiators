@@ -7,19 +7,21 @@ var enemyNames = ['Roborto', 'Amy Android', 'Robo Trumble'];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
-console.log(enemyNames);
-console.log(enemyNames.length);
-console.log(enemyNames[0]);
-console.log(enemyNames[3]);
+const skipOptions = ['skip', 's']
+
+// console.log(enemyNames);
+// console.log(enemyNames.length);
+// console.log(enemyNames[0]);
+// console.log(enemyNames[3]);
 
 // fight function (now with parameter for enemy's name)
 var fight = function(enemyName) {
   while (playerHealth > 0 && enemyHealth > 0) {
     // ask player if they'd like to fight or run
-    var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
+    var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.').toLowerCase().trim();
 
     // if player picks "skip" confirm and then stop the loop
-    if (promptFight === "skip" || promptFight === "SKIP") {
+    if (skipOptions.includes(promptFight)) {
       // confirm player wants to skip
       var confirmSkip = window.confirm("Are you sure you'd like to quit?");
 
@@ -48,6 +50,7 @@ var fight = function(enemyName) {
 
       // leave while() loop since enemy is dead
       break;
+
     } else {
       window.alert(enemyName + ' still has ' + enemyHealth + ' health left.');
     }
@@ -69,28 +72,78 @@ var fight = function(enemyName) {
   }
 };
 
-// fight each enemy-robot by looping over them and fighting them one at a time
-for (var i = 0; i < enemyNames.length; i++) {
-  // if player is still alive, keep fighting
-  if (playerHealth > 0) {
-    // let player know what round they are in, remember that arrays start at 0 so it needs to have 1 added to it
-    window.alert('Welcome to Robot Gladiators! Round ' + (i + 1));
 
-    // pick new enemy to fight based on the index of the enemyNames array
-    var pickedEnemyName = enemyNames[i];
+// Pseudo code for adding the shop & replay features
+const startGame = function() {
+  // game logic
 
-    // reset enemyHealth before starting new fight
-    enemyHealth = 50;
+  // reset player stats
+  playerHealth = 100;
+  playerAttack = 10;
+  playerMoney = 10;
 
-    // use debugger to pause script from running and check what's going on at that moment in the code
-    // debugger;
+  // fight each enemy-robot by looping over them and fighting them one at a time
+  for (var i = 0; i < enemyNames.length; i++) {
+    // if player is still alive, keep fighting
+    if (playerHealth > 0) {
+      // let player know what round they are in, remember that arrays start at 0 so it needs to have 1 added to it
+      window.alert('Welcome to Robot Gladiators! Round ' + (i + 1));
 
-    // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
-    fight(pickedEnemyName);
+      // pick new enemy to fight based on the index of the enemyNames array
+      var pickedEnemyName = enemyNames[i];
+
+      // reset enemyHealth before starting new fight
+      enemyHealth = 50;
+
+      // use debugger to pause script from running and check what's going on at that moment in the code
+      // debugger;
+
+      // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
+      fight(pickedEnemyName);
+    }
+    // if player isn't alive, stop the game
+    else {
+      window.alert('You have lost your robot in battle! Game Over!');
+      break;
+    }
   }
-  // if player isn't alive, stop the game
-  else {
-    window.alert('You have lost your robot in battle! Game Over!');
-    break;
+
+  // when the player is defeated or defeats all enemies
+  endGame();
+
+  // while there are still enemies, but the fight is over or fled, ask player to shop
+  // if no, skip to the game
+  // otherwise show the shop 
+  shop();
+};
+
+
+const endGame = function() {
+  // show end game message, based on win condition
+  if ( playerHealth > 0 ) {
+    window.alert(`You defeated all the robots and saved us all from the singularity! Check you out! You rich! Coins: ${playerMoney}`);
+  } else {
+    window.alert("Bummeroosky, your bot got bought (as in the farm...).");
+  }
+  // show player stats 
+  const playAgain = window.confirm("Do it all over?")
+  // ask player to play again?
+  if (playAgain) {
+    // restart
+    startGame();
+  } else {
+    window.alert("Thanks a billion! Come back for more robot carnage! Same bot time, same bot channel.")
   }
 }
+
+function shop() {
+  // options: refill health, upgrade attack, leave shop
+  // if refill => subtract money and add health
+  // if upgrade => subtract money and add attack
+  // if leave => goodbye msg, leave shop function
+  // invalid response => call shop() again.
+  
+}
+
+
+startGame();

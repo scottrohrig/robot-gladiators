@@ -23,6 +23,8 @@ for ( var i = 0; i < students.length; i++ ) {
 
 }
 
+
+
 // loop over range
 for ( var i = 0; i < 5; i++ ) {
     // do something 5 times
@@ -57,4 +59,16 @@ for ( var i = 0; i <= students.length; i++ ) {
     // students.length == 3, but we will loop 4 times,
     // so we will get: 0, 1, 2, undefined
 }
+
+
+// function declaration vs function expression
+// function declaration:
+function doSomething() {
+    // I AM hoisted 
+}
+
+// function expression
+var doSomethingElse = function() {
+    // I am NOT hoisted, and it helps with enforcing structure in the codebase.
+};
 
