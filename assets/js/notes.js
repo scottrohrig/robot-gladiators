@@ -72,3 +72,24 @@ var doSomethingElse = function() {
     // I am NOT hoisted, and it helps with enforcing structure in the codebase.
 };
 
+
+
+//  Switch statement
+// basic example
+var num = 5;
+
+switch(num) {
+    case 1:
+        console.log(`the variable was 1: ${num}`)
+        break;
+    case 2:
+        console.log(`the var was 2: ${num}`)
+        break;
+    case 3:
+        console.log(`the var was 3: ${num}`)
+        break;
+    default:
+        console.log(`the var was something else: ${num}`)
+        break;
+}
+

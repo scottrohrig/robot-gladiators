@@ -18,7 +18,11 @@ const skipOptions = ['skip', 's']
 var fight = function(enemyName) {
   while (playerHealth > 0 && enemyHealth > 0) {
     // ask player if they'd like to fight or run
-    var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.').toLowerCase().trim();
+    var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
+    
+    if (promptFight) {
+      promptFight = promptFight.toLowerCase().trim();
+    }
 
     // if player picks "skip" confirm and then stop the loop
     if (skipOptions.includes(promptFight)) {
@@ -100,6 +104,11 @@ const startGame = function() {
 
       // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
       fight(pickedEnemyName);
+
+      // if we're not at the last enemy in the array, enter the shop
+      if (playerHealth > 0 && i < enemyNames.length - 1 ) {
+        shopConfirm();
+      }
     }
     // if player isn't alive, stop the game
     else {
@@ -136,12 +145,72 @@ const endGame = function() {
   }
 }
 
+
+const displayStats = () => {
+  window.alert(`${playerName} has ${playerHealth} health, ${playerAttack} attack, & ${playerMoney} coins.`)
+}
+
+
+const shopConfirm = function() {
+  if (window.confirm("Enter the Shop?")) {
+    shop();
+  }
+}
+
 function shop() {
+  console.log("Entered the Shop!")
   // options: refill health, upgrade attack, leave shop
-  // if refill => subtract money and add health
-  // if upgrade => subtract money and add attack
-  // if leave => goodbye msg, leave shop function
-  // invalid response => call shop() again.
+  var shopOptionPrompt = window.prompt(
+    "Choose one: 'REFILL' health, 'UPGRADE' attack, or 'LEAVE' shop."
+  )
+
+  if (!shopOptionPrompt) {
+    shop();
+  } else {
+    shopOptionPrompt = shopOptionPrompt.toLowerCase();
+  }
+
+
+
+  switch(shopOptionPrompt) {
+
+    // if refill => subtract money and add health
+    case 'refill':
+      // refill player health
+      playerHealth += 20;
+      // reduce player money
+      playerMoney -= 7;
+      // show player stats
+      window.alert("Refilling player's health by 20 for 7 dollars.");
+      displayStats();
+      break;
+      
+      // if upgrade => subtract money and add attack
+    case 'upgrade':
+      // increase player attack
+      playerAttack += 6;
+      // reduce player money
+      playerMoney -= 7;
+      // show player stats
+      window.alert("Upgrading player's attack by 6 for 7 dollars.");
+      displayStats();
+      break;
+        
+        // if leave => goodbye msg, leave shop function
+    case 'leave':
+      displayStats();
+      window.alert("Leaving the store.");
+      break;
+
+      // invalid response => call shop() again.
+    default:
+      // error alert
+      window.alert("You did not pick a valid option. Try again.");
+      // start again...
+      shop();
+      break;
+  }
+  
   
 }
 
