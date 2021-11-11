@@ -93,3 +93,24 @@ switch(num) {
         break;
 }
 
+// javascript objects
+// we can create a simple object using the same construction as a dictionary in python.
+// we can add methods to the object using the following syntax:
+var myCar = {
+    make: 'toyota',
+    model: 'prius',
+    mileage: 20000,
+    driveToWork: function() {
+        this.mileage += 25;
+    }
+};
+
+
+var enemy = {
+    name: "Roborto",
+    attack: randomNumber(10, 14),
+    shield: {
+      type: "wood",
+      strength: 10
+    }
+  };
