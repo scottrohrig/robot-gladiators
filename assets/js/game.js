@@ -1,80 +1,96 @@
-var playerName = '';
+var playerName = window.prompt("What is your robot's name?");
 var playerHealth = 100;
 var playerAttack = 10;
 var playerMoney = 10;
 
-var enemyName = "Roborto";
+var enemyNames = ['Roborto', 'Amy Android', 'Robo Trumble'];
 var enemyHealth = 50;
 var enemyAttack = 12;
-var round = 1;
-var shouldContinue = ''
 
-const exits = ['exit','run','stop']
+console.log(enemyNames);
+console.log(enemyNames.length);
+console.log(enemyNames[0]);
+console.log(enemyNames[3]);
 
-const print = (...data) => console.log(...data) 
+// fight function (now with parameter for enemy's name)
+var fight = function(enemyName) {
+  while (playerHealth > 0 && enemyHealth > 0) {
+    // ask player if they'd like to fight or run
+    var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
 
-const displayGame = () => {
-    // print(`${playerName} has ${playerHealth} \n${enemyName} has ${enemyHealth}`);
-    window.alert(`Round: ${round}\n${playerName} has ${playerHealth} \n${enemyName} has ${enemyHealth}`);
-    
-}
+    // if player picks "skip" confirm and then stop the loop
+    if (promptFight === "skip" || promptFight === "SKIP") {
+      // confirm player wants to skip
+      var confirmSkip = window.confirm("Are you sure you'd like to quit?");
 
-const fight = () => {
+      // if yes (true), leave fight
+      if (confirmSkip) {
+        window.alert(playerName + ' has decided to skip this fight. Goodbye!');
+        // subtract money from playerMoney for skipping
+        playerMoney = playerMoney - 10;
+        console.log("playerMoney", playerMoney);
+        break;
+      }
+    }
 
-    shouldContinue = window.prompt("Want to fight? Type: ['FIGHT'] or ['SKIP']").toLowerCase();
-    if (exits.includes(shouldContinue)) { return }
-    let shouldFight = shouldContinue === 'fight';
-    let shouldSkip = shouldContinue === 'skip';
+    // remove enemy's health by subtracting the amount set in the playerAttack variable
+    enemyHealth = enemyHealth - playerAttack;
+    console.log(
+      playerName + ' attacked ' + enemyName + '. ' + enemyName + ' now has ' + enemyHealth + ' health remaining.'
+    );
 
-    if (shouldFight && (playerMoney > 0)) {
+    // check enemy's health
+    if (enemyHealth <= 0) {
+      window.alert(enemyName + ' has died!');
 
-        enemyHealth -= playerAttack;
-        
-        playerHealth -= enemyAttack;
+      // award player money for winning
+      playerMoney = playerMoney + 20;
 
-    } else if (shouldSkip) {
-        const confirmSkip = window.confirm("Are you sure you want to skip?")
-        if (confirmSkip) {
-            playerMoney -= 2;
-            window.alert(`You skipped the fight this round but lost 2 coins. ${playerMoney} coins remaining`)
-            
-        }
-
+      // leave while() loop since enemy is dead
+      break;
     } else {
-        window.alert("Type: ['FIGHT'] or ['SKIP']");
-        fight();
-
+      window.alert(enemyName + ' still has ' + enemyHealth + ' health left.');
     }
-    
+
+    // remove players's health by subtracting the amount set in the enemyAttack variable
+    playerHealth = playerHealth - enemyAttack;
+    console.log(
+      enemyName + ' attacked ' + playerName + '. ' + playerName + ' now has ' + playerHealth + ' health remaining.'
+    );
+
+    // check player's health
+    if (playerHealth <= 0) {
+      window.alert(playerName + ' has died!');
+      // leave while() loop if player is dead
+      break;
+    } else {
+      window.alert(playerName + ' still has ' + playerHealth + ' health left.');
+    }
+  }
 };
 
-const isGameOver = () => {
-    if (!running()) {
-        // check for exit call, or out of coins
-        (enemyHealth > 0) ? window.alert(`${enemyName} defeated ${playerName}`) : window.alert(`${playerName} defeated ${enemyName}`);
-    }
-};
+// fight each enemy-robot by looping over them and fighting them one at a time
+for (var i = 0; i < enemyNames.length; i++) {
+  // if player is still alive, keep fighting
+  if (playerHealth > 0) {
+    // let player know what round they are in, remember that arrays start at 0 so it needs to have 1 added to it
+    window.alert('Welcome to Robot Gladiators! Round ' + (i + 1));
 
-/**
- * 
- * @returns Entities health goes below 0
- */
-const running = () => (playerHealth >= 0 && enemyHealth >= 0 && !exits.includes(shouldContinue));
+    // pick new enemy to fight based on the index of the enemyNames array
+    var pickedEnemyName = enemyNames[i];
 
+    // reset enemyHealth before starting new fight
+    enemyHealth = 50;
 
-const main = () => {
-    window.alert("Welcome to Robot Gladiators!")
-    playerName = window.prompt("What is your robot's name?");
-    displayGame();
+    // use debugger to pause script from running and check what's going on at that moment in the code
+    // debugger;
 
-    while (running()) {
-        round++;
-        fight();
-        if (running()) {
-            displayGame();
-        }
-        isGameOver();
-    }
+    // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
+    fight(pickedEnemyName);
+  }
+  // if player isn't alive, stop the game
+  else {
+    window.alert('You have lost your robot in battle! Game Over!');
+    break;
+  }
 }
-
-main();
