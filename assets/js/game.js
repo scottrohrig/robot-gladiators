@@ -1,71 +1,29 @@
 // robot gladiators game
 
-
-
+// helper function to show player health, attack and coins
 const displayStats = () => {
   window.alert(`${playerInfo.name} has ${playerInfo.health} health, ${playerInfo.attack} attack, & ${playerInfo.money} coins.`)
 }
 
-
+// generates a random number between 2 given values.
 const randomNumber = (min, max) => ( Math.floor( Math.random() * ( max-min + 1 ) ) + min );
-
-
-var playerInfo = {
-  name: window.prompt("What is your robot's name?"),
-  health: 100,
-  attack: 10,
-  money: 10,
-  reset: function() {
-    this.health = 100;
-    this.attack = 10;
-    this.money = 10;
-  },
-  refillHealth: function() {
-    if ( this.money > 7 ) {
-      this.health += randomNumber( 15, 25 );
-      this.money -= 7;
-    
-      window.alert("Refilling player's health by 15-25 HP for 7 coins.");
-        
-    }  else {
-      window.alert("Light on the fundage..");
-    }
-  },
-  upgradeAttack: function() {
-    if ( this.money > 7 ) {
-      this.attack += randomNumber( 6, 12 );
-      this.money -= 7;
-    
-      window.alert("Upgrading player's attack by 6-12 points for 7 coins.");
-        
-    }  else {
-      window.alert("Light on the fundage..");
-    }
-  }
-}
-
-
-var enemyInfo = [
-  {
-    name: 'Roborto Robot',
-    attack: randomNumber(10, 14)
-  },
-  {
-    name: 'Amy Android',
-    attack: randomNumber(10, 14)
-  },
-  {
-    name: 'Sandisk Sam',
-    attac: randomNumber(10, 14)
-  }
-
-
-]
 
 const skipOptions = ['skip', 's', 'run', 'flee']
 
 
-// fight function (now with parameter for enemy's name)
+var getPlayerName = function() {
+  var name = "";
+
+  while (name.trim() === "" || name === null) {
+    name = prompt("What is your robot's name?");
+  }
+
+  console.log("Your robot's name is " + name);
+  return name;
+};
+
+
+// fight function (now with parameter for enemy object)
 var fight = function(enemy) {
   while (playerInfo.health > 0 && enemy.health > 0) {
     // ask player if they'd like to fight or run
@@ -131,7 +89,7 @@ var fight = function(enemy) {
   }
 };
 
-// Pseudo code for adding the shop & replay features
+// running game logic
 const startGame = function() {
   // game logic
 
@@ -174,7 +132,7 @@ const startGame = function() {
   endGame();
 };
 
-
+// display end stats & message, ask to replay
 const endGame = function() {
   // show end game message, based on win condition
   if ( playerInfo.health > 0 ) {
@@ -193,12 +151,14 @@ const endGame = function() {
   }
 }
 
+// get confirmation from player to enter shop or leave
 const shopConfirm = function() {
   if (window.confirm("Enter the Shop?")) {
     shop();
   }
 }
 
+// Go to Shop between battles
 function shop() {
   console.log("Entered the Shop!")
   // options: refill health, upgrade attack, leave shop
@@ -248,6 +208,61 @@ function shop() {
   
   
 }
+
+
+// Initialize Player Object
+var playerInfo = {
+  name: getPlayerName(),
+  health: 100,
+  attack: 10,
+  money: 10,
+  reset: function() {
+    this.health = 100;
+    this.attack = 10;
+    this.money = 10;
+  },
+  refillHealth: function() {
+    if ( this.money > 7 ) {
+      this.health += randomNumber( 15, 25 );
+      this.money -= 7;
+    
+      window.alert("Refilling player's health by 15-25 HP for 7 coins.");
+        
+    }  else {
+      window.alert("Light on the fundage..");
+    }
+  },
+  upgradeAttack: function() {
+    if ( this.money > 7 ) {
+      this.attack += randomNumber( 6, 12 );
+      this.money -= 7;
+    
+      window.alert("Upgrading player's attack by 6-12 points for 7 coins.");
+        
+    }  else {
+      window.alert("Light on the fundage..");
+    }
+  }
+}
+
+
+// Initialize Enemies
+var enemyInfo = [
+  {
+    name: 'Roborto Robot',
+    attack: randomNumber(10, 14)
+  },
+  {
+    name: 'Amy Android',
+    attack: randomNumber(10, 14)
+  },
+  {
+    name: 'Sandisk Sam',
+    attac: randomNumber(10, 14)
+  }
+
+
+]
 
 
 startGame();
