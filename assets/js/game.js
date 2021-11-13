@@ -60,11 +60,11 @@ const confirmSkip = () => {
 
 // fight function (now with parameter for enemy object)
 var fight = function(enemy) {
+  
   while (playerInfo.health > 0 && enemy.health > 0) {
-    // ask player if they'd like to fight or run
-    // var promptFight = window.prompt('Would you like to FIGHT or FLEE this battle? Enter "FIGHT" or "FLEE" to choose.');
+    // give player option to skip fight
     if ( fightOrSkip() ) {
-      return;
+      break;
     }
 
     // generate random damage value based on player's attack power
