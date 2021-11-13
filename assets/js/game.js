@@ -23,29 +23,48 @@ var getPlayerName = function() {
 };
 
 
+/** fines the player and returns true if choosing to run from a fight, otherwise returns false
+ * @returns 'skip' === true, else false */
+const fightOrSkip = () => {
+
+  // give player choice to fight or flee
+  let shouldFight = window.prompt('Fight or Flee').trim();
+
+  // validate null check return - recursive
+  if ( !shouldFight ) {
+    window.alert('Incorrect Response. Try again.');
+    return fightOrSkip();
+  }
+
+  // convert to lowercase
+  shouldFight = shouldFight.toLowerCase();
+
+  // confirm player wants to run
+  if ( confirmSkip() ) {
+    // dsplay 'flee' msg 
+    window.alert('Running from the fight.');
+    // reduce player money
+    playerInfo.money = Math.max(0, playerInfo.money - 10);
+    // 
+    return true;
+  } else {
+    return fightOrSkip();
+  }
+  // if skip is not set, then continue with the fight.
+  return false;
+}
+
+const confirmSkip = () => {
+  return window.confirm('Are you sure you want to run?')
+}
+
 // fight function (now with parameter for enemy object)
 var fight = function(enemy) {
   while (playerInfo.health > 0 && enemy.health > 0) {
     // ask player if they'd like to fight or run
-    var promptFight = window.prompt('Would you like to FIGHT or FLEE this battle? Enter "FIGHT" or "FLEE" to choose.');
-    
-    if (promptFight) {
-      promptFight = promptFight.toLowerCase().trim();
-    }
-
-    // if player picks "skip" confirm and then stop the loop
-    if (skipOptions.includes(promptFight)) {
-      // confirm player wants to skip
-      var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-
-      // if yes (true), leave fight
-      if (confirmSkip) {
-        window.alert(playerInfo.name + ' has decided to skip this fight. Goodbye!');
-        // subtract money from playerInfo.money for skipping
-        playerInfo.money = Math.max(0, playerInfo.money - 10);
-        console.log("playerInfo.money", playerInfo.money);
-        break;
-      }
+    // var promptFight = window.prompt('Would you like to FIGHT or FLEE this battle? Enter "FIGHT" or "FLEE" to choose.');
+    if ( fightOrSkip() ) {
+      return;
     }
 
     // generate random damage value based on player's attack power
@@ -164,21 +183,19 @@ function shop() {
   // options: refill health, upgrade attack, leave shop
   var shopOptionPrompt = window.prompt(
     "Choose one: 'REFILL' health, 'UPGRADE' attack, or 'LEAVE' shop."
-  )
+  ).trim();
 
   // can't exit game this goes back to the shop
   if (!shopOptionPrompt) {
     shop();
-  } else {
-    shopOptionPrompt = shopOptionPrompt.toLowerCase();
   }
+  
+  shopOptionPrompt = shopOptionPrompt.toLowerCase();
 
   switch(shopOptionPrompt) {
 
     // if refill => subtract money and add health
     // fall-through case: doesn't have a break;
-    case 'Refill':
-    case 'REFILL':
     case 'refill':
       playerInfo.refillHealth();
       displayStats();
