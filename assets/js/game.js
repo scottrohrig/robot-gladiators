@@ -245,10 +245,12 @@ var playerInfo = {
   },
   refillHealth: function() {
     if ( this.money > 7 ) {
-      this.health += randomNumber( 15, 25 );
+
+      let amount = randomNumber( 15, 25 );
+      this.health += amount 
       this.money -= 7;
     
-      window.alert("Refilling player's health by 15-25 HP for 7 coins.");
+      window.alert(`Refilling player's health by ${amount} HP for 7 coins.`);
         
     }  else {
       window.alert("Light on the fundage..");
@@ -256,10 +258,11 @@ var playerInfo = {
   },
   upgradeAttack: function() {
     if ( this.money > 7 ) {
-      this.attack += randomNumber( 6, 12 );
+      let amount = randomNumber( 6, 12 );
+      this.attack += amount
       this.money -= 7;
     
-      window.alert("Upgrading player's attack by 6-12 points for 7 coins.");
+      window.alert(`Upgrading player's attack by ${amount} points for 7 coins.`);
         
     }  else {
       window.alert("Light on the fundage..");
