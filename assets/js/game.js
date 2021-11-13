@@ -194,8 +194,6 @@ function shop() {
   
   shopOptionPrompt = parseInt(shopOptionPrompt);
 
-  window.alert(typeof(shopOptionPrompt))
-
   // debugger;
   switch(shopOptionPrompt) {
 
