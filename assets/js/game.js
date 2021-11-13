@@ -14,7 +14,7 @@ const skipOptions = ['skip', 's', 'run', 'flee']
 var getPlayerName = function() {
   var name = "";
 
-  while (name.trim() === "" || name === null) {
+  while ( name === null || name.trim() === "" ) {
     name = prompt("What is your robot's name?");
   }
 
