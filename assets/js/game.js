@@ -39,16 +39,18 @@ const fightOrSkip = () => {
   // convert to lowercase
   shouldFight = shouldFight.toLowerCase();
 
-  // confirm player wants to run
-  if ( confirmSkip() ) {
-    // dsplay 'flee' msg 
-    window.alert('Running from the fight.');
-    // reduce player money
-    playerInfo.money = Math.max(0, playerInfo.money - 10);
-    // 
-    return true;
-  } else {
-    return fightOrSkip();
+  if (skipOptions.includes(shouldFight)) {
+    // confirm player wants to run
+    if ( confirmSkip() ) {
+      // dsplay 'flee' msg 
+      window.alert('Running from the fight.');
+      // reduce player money
+      playerInfo.money = Math.max(0, playerInfo.money - 10);
+      // 
+      return true;
+    } else {
+      return fightOrSkip();
+    }
   }
   // if skip is not set, then continue with the fight.
   return false;
@@ -60,7 +62,7 @@ const confirmSkip = () => {
 
 // fight function (now with parameter for enemy object)
 var fight = function(enemy) {
-  
+
   while (playerInfo.health > 0 && enemy.health > 0) {
     // give player option to skip fight
     if ( fightOrSkip() ) {
@@ -182,7 +184,7 @@ function shop() {
   console.log("Entered the Shop!")
   // options: refill health, upgrade attack, leave shop
   var shopOptionPrompt = window.prompt(
-    "Choose one: 'REFILL' health, 'UPGRADE' attack, or 'LEAVE' shop."
+    "Choose one: Type: [1] to refill health, [2] to upgrade attack, [3] to leave shop."
   ).trim();
 
   // can't exit game this goes back to the shop
@@ -190,26 +192,29 @@ function shop() {
     shop();
   }
   
-  shopOptionPrompt = shopOptionPrompt.toLowerCase();
+  shopOptionPrompt = parseInt(shopOptionPrompt);
 
+  window.alert(typeof(shopOptionPrompt))
+
+  // debugger;
   switch(shopOptionPrompt) {
 
     // if refill => subtract money and add health
     // fall-through case: doesn't have a break;
-    case 'refill':
+    case 1:
       playerInfo.refillHealth();
       displayStats();
       break;
       
       // if upgrade => subtract money and add attack
-    case 'upgrade':
+    case 2:
       playerInfo.upgradeAttack();
 
       displayStats();
       break;
         
         // if leave => goodbye msg, leave shop function
-    case 'leave':
+    case 3:
       displayStats();
       window.alert("Leaving the store.");
       break;
