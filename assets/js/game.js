@@ -18,6 +18,8 @@ var getPlayerName = function() {
     name = prompt("What is your robot's name?");
   }
 
+  name = name.trim();
+  window.alert("Your robot's name is " + name);
   console.log("Your robot's name is " + name);
   return name;
 };
@@ -184,7 +186,7 @@ function shop() {
   console.log("Entered the Shop!")
   // options: refill health, upgrade attack, leave shop
   var shopOptionPrompt = window.prompt(
-    "Choose one: Type: [1] to refill health, [2] to upgrade attack, [3] to leave shop."
+    "Choose one: Type: \n - [1] to refill health, \n - [2] to upgrade attack, \n - [3] to leave shop."
   ).trim();
 
   // can't exit game this goes back to the shop
