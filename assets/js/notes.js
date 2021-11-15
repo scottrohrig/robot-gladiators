@@ -114,3 +114,7 @@ var enemy = {
       strength: 10
     }
   };
+
+
+// short circuit conditional assignment [foo = foo || bar];
+// assign foo if foo is not null, else assign bar
