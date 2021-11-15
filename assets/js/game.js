@@ -30,7 +30,8 @@ var getPlayerName = function() {
 const fightOrSkip = () => {
 
   // give player choice to fight or flee
-  let shouldFight = window.prompt('Fight or Flee').trim();
+  let shouldFight = window.prompt('Fight or Flee')
+
 
   // validate null check return - recursive
   if ( !shouldFight ) {
@@ -39,7 +40,7 @@ const fightOrSkip = () => {
   }
 
   // convert to lowercase
-  shouldFight = shouldFight.toLowerCase();
+  shouldFight = shouldFight.toLowerCase().trim();
 
   if (skipOptions.includes(shouldFight)) {
     // confirm player wants to run
