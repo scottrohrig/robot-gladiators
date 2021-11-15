@@ -83,41 +83,40 @@ var fight = function(enemy) {
 
   while (playerInfo.health > 0 && enemy.health > 0) {
 
-    // 
-
-    // give player option to skip fight
-    if ( fightOrSkip() ) {
-      break;
-    }
-
-
-    attack(playerInfo, enemy);
-
-    // check enemy's health
-    if (enemy.health <= 0) {
-      window.alert(enemy.name + ' has died!');
-
-      // award player money for winning
-      playerInfo.money = playerInfo.money + 20;
-
-      // leave while() loop since enemy is dead
-      break;
-
+    if (isPlayerTurn) {
+      // prompt fight/skip
+      if (fightOrSkip()) {
+        break;
+      }
+      // lower enemy health
+      attack(playerInfo, enemy);
+      // check if enemy died
+      if (enemy.health <= 0) {
+        window.alert(enemy.name + ' has died!');
+        
+        // award player money for winning
+        playerInfo.money = playerInfo.money + 20;
+        
+        // leave while() loop since enemy is dead
+        break;
+        
+      } else {
+        window.alert(enemy.name + ' still has ' + enemy.health + ' health left.');
+      }
     } else {
-      window.alert(enemy.name + ' still has ' + enemy.health + ' health left.');
+      attack(enemy, playerInfo);
+      
+      // check player's health
+      if (playerInfo.health <= 0) {
+        window.alert(playerInfo.name + ' has died!');
+        // leave while() loop if player is dead
+        break;
+      } else {
+        window.alert(playerInfo.name + ' still has ' + playerInfo.health + ' health left.');
+      }
     }
 
-    // enemy attacking
-    attack(enemy, playerInfo);
-
-    // check player's health
-    if (playerInfo.health <= 0) {
-      window.alert(playerInfo.name + ' has died!');
-      // leave while() loop if player is dead
-      break;
-    } else {
-      window.alert(playerInfo.name + ' still has ' + playerInfo.health + ' health left.');
-    }
+    isPlayerTurn = !isPlayerTurn;
   }
 };
 
