@@ -62,22 +62,36 @@ const confirmSkip = () => {
   return window.confirm('Are you sure you want to run?')
 }
 
+
+const attack = (attacker, defender) => {
+  // generate random damage value based on player's attack power
+  var damage = randomNumber(attacker.attack - 3, attacker.attack);
+
+  defender.health = Math.max(0, defender.health - damage);
+  
+  console.log(
+    attacker.name + ' attacked ' + defender.name + '. ' + defender.name + ' now has ' + defender.health + ' health remaining.'
+  );
+
+}
+
+
 // fight function (now with parameter for enemy object)
 var fight = function(enemy) {
 
+  let isPlayerTurn = Math.random() > 0.5;
+
   while (playerInfo.health > 0 && enemy.health > 0) {
+
+    // 
+
     // give player option to skip fight
     if ( fightOrSkip() ) {
       break;
     }
 
-    // generate random damage value based on player's attack power
-    var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack)
-    // remove enemy's health by subtracting the amount set in the playerInfo.attack variable
-    enemy.health = Math.max(0, enemy.health - damage);
-    console.log(
-      playerInfo.name + ' attacked ' + enemy.name + '. ' + enemy.name + ' now has ' + enemy.health + ' health remaining.'
-    );
+
+    attack(playerInfo, enemy);
 
     // check enemy's health
     if (enemy.health <= 0) {
@@ -93,13 +107,8 @@ var fight = function(enemy) {
       window.alert(enemy.name + ' still has ' + enemy.health + ' health left.');
     }
 
-    var damage = randomNumber(enemy.attack - 3, enemy.attack);
-
-    // remove players's health by subtracting the amount set in the enemy.attack variable
-    playerInfo.health = Math.max(0, playerInfo.health - damage);
-    console.log(
-      enemy.name + ' attacked ' + playerInfo.name + '. ' + playerInfo.name + ' now has ' + playerInfo.health + ' health remaining.'
-    );
+    // enemy attacking
+    attack(enemy, playerInfo);
 
     // check player's health
     if (playerInfo.health <= 0) {
