@@ -171,6 +171,7 @@ const endGame = function() {
   } else {
     window.alert("Bummeroosky, your bot got bought (as in the farm...).");
   }
+  setScore();
   // show player stats 
   const playAgain = window.confirm("Do it all over?")
   // ask player to play again?
@@ -179,6 +180,24 @@ const endGame = function() {
     startGame();
   } else {
     window.alert("Thanks a billion! Come back for more robot carnage! Same bot time, same bot channel.")
+  }
+}
+
+const setScore = () => {
+  var highscore = localStorage.getItem('highscore');
+  
+  // 'short circuit' conditional statement
+  highscore = highscore || 0;
+
+  if ( playerInfo.money > highscore ) {
+    highscore = playerInfo.money;
+    localStorage.setItem('highscore', playerInfo.money);
+    localStorage.setItem('name', playerInfo.name);
+
+    window.alert(`${playerInfo.name} set the new highscore! ${highscore}`)
+  } else {
+    window.alert(`${playerInfo.name} got a score of ${playerInfo.money}. Not quite as high as the highscore of ${highscore}. \nBetter luck next time...`)
+
   }
 }
 
