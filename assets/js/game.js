@@ -259,6 +259,10 @@ function shop() {
   
 }
 
+// Confirm to start game or exit script
+if (!confirm('Start Game?')){
+  exit();
+}
 
 // Initialize Player Object
 var playerInfo = {
